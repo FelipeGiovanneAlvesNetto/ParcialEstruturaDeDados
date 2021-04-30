@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// definindo arvore
+struct noArv
+{
+    int valor;
+    struct noArv* esq;
+    struct noArv* dir;
+};
+typedef struct noArv Arv;
+
+
+// funcao para imprimir toda a arvore, em pós ordem
+void imprimePosOrdem (Arv* a)
+{
+    if (a != NULL)
+    {
+        imprimePosOrdem(a->esq);
+        imprimePosOrdem(a->dir);
+        printf("%i ", a->valor);
+    }
+}
+
+
+// funcao para inserir um novo elemente a arvore, valor menor para a esquerda e valor maior para a direita
+Arv* insere (Arv* a, int valor)
+{
+    if (a==NULL)
+    {
+        a = (Arv*)malloc(sizeof(Arv));
+        a->valor = valor;
+        a->esq = a->dir = NULL;
+    }
+    else if (valor < a->valor)
+    {
+        a->esq = insere(a->esq,valor);
+    }
+    else if (valor > a->valor)
+    {
+        a->dir = insere(a->dir,valor);
+    }
+
+    return a;
+}
+
+// menu com as opcoes de inserir e imprimir a arvore em pós ordem
+void menu(Arv* a)
+{
+    int escolha = 0,valInserido=0;
+    do
+    {
+        printf("ESCOLHA UMA OPCAO\n1)Inserir elemento na arvore\n2)Imprimir elementos\n3)Fim\n");
+        scanf("%i",&escolha);
+        switch(escolha)
+        {
+        case 1:
+            printf("Digite o valor: ");
+            scanf("%i",&valInserido);
+            a = insere(a,valInserido);
+            printf("valor inserido");
+            printf("\n");
+            system("pause");
+            system("cls");
+            break;
+        case 2:
+            printf("Elementos em Pos-Ordem: ");
+            imprimePosOrdem(a);
+            printf("\n");
+            system("pause");
+            system("cls");
+            break;
+        case 3:
+            escolha =3;
+            break;
+        }
+    }
+    while(escolha!=3);
+}
+
+
+
+
+
+
+void main()
+{
+    Arv* a =  NULL;
+    menu(a);
+}
